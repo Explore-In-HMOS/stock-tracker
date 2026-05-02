@@ -8,10 +8,13 @@ export struct NewsListTile {
   build() {
     Column() {
       Text(this.newsItem.title)
-        .fontColor(Color.White)
+        .fontColor($r('app.color.news_title_text'))
         .fontSize(12)
         .fontWeight(FontWeight.Bold)
         .margin(12)
+        .maxLines(3)
+        .textOverflow({ overflow: TextOverflow.Ellipsis })
+        .textAlign(TextAlign.Center)
 
       Video({
         src: $r('app.media.sample'),

@@ -1,13 +1,36 @@
 import { NewsListTile } from '../components/NewsListTile';
 import { NewsItem } from '../model/NewsItem';
 import { NewsViewModel } from '../viewmodel/NewsViewModel';
+import { vibrator } from '@kit.SensorServiceKit';
+import {
+  ArcSwiper,
+  ArcSwiperAttribute,
+  ArcDotIndicator,
+  ArcDirection
+} from '@kit.ArkUI';
 
 @Entry
 struct NewsPage {
   private viewModel: NewsViewModel = new NewsViewModel();
 
+  private triggerHaptic(): void {
+    try {
+      vibrator.startVibration(
+        {
+          type: 'preset',
+          effectId: 'haptic.slide',
+          count: 1
+        },
+        {
+          usage: 'touch'
+        }
+      );
+    } catch (err) {
+    }
+  }
+
   build() {
-    Swiper() {
+    ArcSwiper() {
       ForEach(this.viewModel.newsList, (item: NewsItem) => {
         NewsListTile({
           newsItem: item
@@ -15,16 +38,19 @@ struct NewsPage {
       }, (item: NewsItem) => item.title)
     }
     .indicator(
-      new DotIndicator()
-        .itemWidth(3)
-        .itemHeight(3)
-        .selectedItemWidth(5)
-        .selectedItemHeight(5)
-        .selectedColor(Color.Blue)
-        .maxDisplayCount(6)
+      new ArcDotIndicator()
+        .arcDirection(ArcDirection.SIX_CLOCK_DIRECTION)
+        .itemColor($r('app.color.text_secondary'))
+        .selectedItemColor($r('app.color.indicator_selected'))
     )
-    .loop(false)
     .vertical(true)
+    .focusable(true)
+    .focusOnTouch(true)
+    .defaultFocus(true)
+    .digitalCrownSensitivity(CrownSensitivity.MEDIUM)
+    .onChange((_index: number) => {
+      this.triggerHaptic();
+    })
     .height('100%')
     .width('100%')
     .linearGradient({
@@ -32,12 +58,12 @@ struct NewsPage {
       repeating: false,
       angle: 12,
       colors: [
-        [0x0d1b2a, 0.0], // Deep Navy
-        [0x1b263b, 0.25], // Charcoal Blue
-        [0x415a77, 0.5],// Slate Blue
+        [$r('app.color.gradient_start'), 0.0],
+        [$r('app.color.gradient_mid'), 0.25],
+        [$r('app.color.gradient_end'), 0.5]
       ]
     })
   }
 }
 
-export { NewsPage }
+export { NewsPage };

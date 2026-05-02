@@ -1,12 +1,9 @@
-// types/VChartTypes.ts
-
 export interface ChartDataItem {
   x: number;
   y: number;
   date: string;
 }
 
-// Factory function to create ChartDataItem
 export function createChartDataItem(x: number, y: number, date: string): ChartDataItem {
   return { x, y, date };
 }

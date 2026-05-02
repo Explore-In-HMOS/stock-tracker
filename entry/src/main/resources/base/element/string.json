@@ -2,15 +2,79 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "module description"
+      "value": "Stock Tracker wearable application"
     },
     {
       "name": "EntryAbility_desc",
-      "value": "description"
+      "value": "Stock Tracker Entry"
     },
     {
       "name": "EntryAbility_label",
-      "value": "label"
+      "value": "Stock Tracker"
+    },
+    {
+      "name": "app_name",
+      "value": "Stock Tracker"
+    },
+    {
+      "name": "menu_news_label",
+      "value": "News"
+    },
+    {
+      "name": "menu_charts_label",
+      "value": "Charts"
+    },
+    {
+      "name": "chart_no_data",
+      "value": "No chart data available"
+    },
+    {
+      "name": "alarm_set_button",
+      "value": "Set Alarm"
+    },
+    {
+      "name": "alarm_cancel_button",
+      "value": "Cancel Alarm"
+    },
+    {
+      "name": "alarm_confirm_button",
+      "value": "Confirm"
+    },
+    {
+      "name": "alarm_title",
+      "value": "Stock Tracker"
+    },
+    {
+      "name": "alarm_content",
+      "value": "Time to check your portfolio!"
+    },
+    {
+      "name": "alarm_close_button",
+      "value": "Close"
+    },
+    {
+      "name": "alarm_snooze_button",
+      "value": "Snooze"
+    },
+    {
+      "name": "alarm_set_success",
+      "value": "Alarm set successfully"
+    },
+    {
+      "name": "alarm_cancel_success",
+      "value": "Alarm cancelled"
+    },
+    {
+      "name": "alarm_page_title",
+      "value": "Set Alarm"
+    },
+    {
+      "name": "news_page_title",
+      "value": "Financial News"
+    },
+    {
+      "name": "charts_page_title",
+      "value": "Market"
     }
   ]
 }

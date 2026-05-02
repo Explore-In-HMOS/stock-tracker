@@ -11,6 +11,86 @@
     {
       "name": "menu_background",
       "value": "#132E4C"
+    },
+    {
+      "name": "gradient_start",
+      "value": "#0D1B2A"
+    },
+    {
+      "name": "gradient_mid",
+      "value": "#1B263B"
+    },
+    {
+      "name": "gradient_end",
+      "value": "#415A77"
+    },
+    {
+      "name": "price_positive",
+      "value": "#00C853"
+    },
+    {
+      "name": "price_negative",
+      "value": "#FF3B30"
+    },
+    {
+      "name": "chart_point_fill",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "chart_point_stroke",
+      "value": "#FFE9CC"
+    },
+    {
+      "name": "chart_no_data_text",
+      "value": "#666666"
+    },
+    {
+      "name": "card_shadow",
+      "value": "#000033"
+    },
+    {
+      "name": "crosshair_stroke",
+      "value": "#666666"
+    },
+    {
+      "name": "text_primary",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "text_secondary",
+      "value": "#B0BEC5"
+    },
+    {
+      "name": "indicator_selected",
+      "value": "#5B9BD5"
+    },
+    {
+      "name": "alarm_button_background",
+      "value": "#1E3A5F"
+    },
+    {
+      "name": "alarm_button_text",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "alarm_button_border",
+      "value": "#5B9BD5"
+    },
+    {
+      "name": "time_picker_text",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "time_picker_selected",
+      "value": "#5B9BD5"
+    },
+    {
+      "name": "news_title_text",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "overlay_dark",
+      "value": "#80000000"
     }
   ]
 }

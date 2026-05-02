@@ -1,100 +1,82 @@
 import { FinancialListTile } from '../components/FinancialListTile';
 import { FinancialAsset } from '../model/FinancialAsset';
 import { ListViewModel } from '../viewmodel/ListViewModel';
+import { SetAnAlarmButton } from '../components/SetAnAlarm';
+import { vibrator } from '@kit.SensorServiceKit';
+import { common } from '@kit.AbilityKit';
+import {
+  ArcSwiper,
+  ArcSwiperAttribute,
+  ArcDotIndicator,
+  ArcDirection,
+  ArcSwiperController
+} from '@kit.ArkUI';
 
 @Entry
 struct ChartsPage {
   private viewModel: ListViewModel = new ListViewModel();
-  private DISPLAY_COUNT: number = 1
-  private MIN_SCALE: number = 0.75
-  private backgroundColors: Color[] = [Color.Green, Color.Blue, Color.Yellow, Color.Pink, Color.Gray, Color.Orange]
-  @State opacityList: number[] = []
-  @State scaleList: number[] = []
-  @State translateList: number[] = []
-  @State zIndexList: number[] = []
+  private context = this.getUIContext().getHostContext() as common.UIAbilityContext;
+  @State private currentIndex: number = 0;
 
-  aboutToAppear(): void {
-    for (let i = 0; i < this.backgroundColors.length; i++) {
-      this.opacityList.push(1.0)
-      this.scaleList.push(1.0)
-      this.translateList.push(0.0)
-      this.zIndexList.push(0)
+  private triggerHaptic(): void {
+    try {
+      vibrator.startVibration(
+        { type: 'preset', effectId: 'haptic.slide', count: 1 },
+        { usage: 'touch' }
+      );
+    } catch (err) {
+
     }
   }
 
   build() {
-    Swiper() {
-      ForEach(this.viewModel.listContents, (item: FinancialAsset, index: number) => {
-        FinancialListTile({
-          financialAsset: item
-        })
-          .opacity(this.opacityList[index])
-          .scale({ x: this.scaleList[index], y: this.scaleList[index] })
-          .translate({
-            x: 0,
-            y: this.translateList[index]
-          }).zIndex(this.zIndexList[index])
-      }, (item: FinancialAsset, index: number) => item.name)
-    }
-    .linearGradient({
-      direction: GradientDirection.Left,
-      repeating: false,
-      angle: 12,
-      colors: [
-        [0x0d1b2a, 0.0], // Deep Navy
-        [0x1b263b, 0.25], // Charcoal Blue
-        [0x415a77, 0.5],// Slate Blue
-      ]
-    })
-    .indicator(
-      new DotIndicator()
-        .itemWidth(3)
-        .itemHeight(3)
-        .selectedItemWidth(5)
-        .selectedItemHeight(5)
-        .selectedColor(Color.Blue)
-        .maxDisplayCount(6)
-    )
-    .align(Alignment.Center)
-    .vertical(true)
-    .displayCount(this.DISPLAY_COUNT, true)
-    .loop(false)
-    .customContentTransition({
-      timeout: 1000,
-      transition: (proxy: SwiperContentTransitionProxy) => {
-        if (proxy.position <= proxy.index % this.DISPLAY_COUNT ||
-          proxy.position >= this.DISPLAY_COUNT + proxy.index % this.DISPLAY_COUNT) {
-          // When a group of pages is completely scrolled out of the viewport, reset the attribute values.
-          this.opacityList[proxy.index] = 1.0
-          this.scaleList[proxy.index] = 1.0
-          this.translateList[proxy.index] = 0.0
-          this.zIndexList[proxy.index] = 0
-        } else {
-          // When a group of pages is not scrolled out of the viewport, adjust the attribute values
-          if (proxy.index % this.DISPLAY_COUNT === 0) {
-            this.opacityList[proxy.index] = 1 - proxy.position / this.DISPLAY_COUNT
-            this.scaleList[proxy.index] =
-              this.MIN_SCALE + (1 - this.MIN_SCALE) * (1 - proxy.position / this.DISPLAY_COUNT)
-
-            // Fix: Adjust translation to maintain center position
-            const scaleOffset = (1 - this.scaleList[proxy.index]) * proxy.mainAxisLength / 2.0
-            this.translateList[proxy.index] = -proxy.position * proxy.mainAxisLength + scaleOffset
-          } else {
-            this.opacityList[proxy.index] = 1 - (proxy.position - 1) / this.DISPLAY_COUNT
-            this.scaleList[proxy.index] =
-              this.MIN_SCALE + (1 - this.MIN_SCALE) * (1 - (proxy.position - 1) / this.DISPLAY_COUNT)
-
-            // Fix: Adjust translation to maintain center position
-            const scaleOffset = (1 - this.scaleList[proxy.index]) * proxy.mainAxisLength / 2.0
-            this.translateList[proxy.index] = -(proxy.position - 1) * proxy.mainAxisLength - scaleOffset
+    Stack({ alignContent: Alignment.Bottom }) {
+      ArcSwiper() {
+        ForEach(this.viewModel.listContents, (item: FinancialAsset, index: number) => {
+          Column() {
+            FinancialListTile({ financialAsset: item })
           }
-          this.zIndexList[proxy.index] = -1
-        }
+          .width('100%')
+          .height('100%')
+          .linearGradient({
+            direction: GradientDirection.Left,
+            repeating: false,
+            angle: 12,
+            colors: [
+              [$r('app.color.gradient_start'), 0.0],
+              [$r('app.color.gradient_mid'), 0.25],
+              [$r('app.color.gradient_end'), 0.5]
+            ]
+          })
+        }, (item: FinancialAsset) => item.name)
       }
-    })
-    .height('100%')
+      .indicator(
+        new ArcDotIndicator()
+          .arcDirection(ArcDirection.SIX_CLOCK_DIRECTION)
+          .itemColor($r('app.color.text_secondary'))
+          .selectedItemColor($r('app.color.indicator_selected'))
+      )
+      .vertical(true)
+      .focusable(true)
+      .focusOnTouch(true)
+      .defaultFocus(true)
+      .digitalCrownSensitivity(CrownSensitivity.MEDIUM)
+      .onChange((index: number) => {
+        this.currentIndex = index;
+        this.triggerHaptic();
+      })
+      .height('100%')
+      .width('100%')
+
+      Column() {
+        SetAnAlarmButton({ context: this.context })
+      }
+      .width('100%')
+      .padding({ bottom: 4 })
+    }
     .width('100%')
+    .height('100%')
   }
 }
 
-export { ChartsPage }
+export { ChartsPage };
